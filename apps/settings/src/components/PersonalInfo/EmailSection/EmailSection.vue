@@ -25,10 +25,14 @@
 		class="section"
 		@submit.stop.prevent="() => {}">
 		<HeaderBar
-			:can-edit-emails="displayNameChangeSupported"
+			:account-property="accountProperty"
+			label-for="email"
+			:handle-scope-change="savePrimaryEmailScope"
+			:is-editable="displayNameChangeSupported"
+			:is-multi-value-supported="true"
 			:is-valid-form="isValidForm"
 			:scope.sync="primaryEmail.scope"
-			@addAdditionalEmail="onAddAdditionalEmail" />
+			@addAdditional="onAddAdditionalEmail" />
 
 		<template v-if="displayNameChangeSupported">
 			<Email
@@ -54,14 +58,14 @@
 <script>
 import { loadState } from '@nextcloud/initial-state'
 import { showError } from '@nextcloud/dialogs'
-import '@nextcloud/dialogs/styles/toast.scss'
 
-import HeaderBar from './HeaderBar'
 import Email from './Email'
-import { savePrimaryEmail, removeAdditionalEmail } from '../../../service/PersonalInfoService'
-import { DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
+import HeaderBar from '../shared/HeaderBar'
 
-const { additionalEmails, primaryEmail } = loadState('settings', 'emails', {})
+import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '../../../constants/AccountPropertyConstants'
+import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
+
+const { emails: { additionalEmails, primaryEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
@@ -74,10 +78,12 @@ export default {
 
 	data() {
 		return {
+			accountProperty: ACCOUNT_PROPERTY_READABLE_ENUM.EMAIL,
 			additionalEmails,
 			displayNameChangeSupported,
-			primaryEmail,
 			isValidForm: true,
+			primaryEmail,
+			savePrimaryEmailScope,
 		}
 	},
 
