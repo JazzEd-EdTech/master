@@ -723,7 +723,9 @@ $CONFIG = [
 
 /**
  * Check if Nextcloud is up-to-date and shows a notification if a new version is
- * available.
+ * available. It sends current version, php version, installation and last update
+ * time and release channel to the updater server which responds with the latest
+ * available version based on those metrics.
  *
  * Defaults to ``true``
  */
@@ -1486,10 +1488,22 @@ $CONFIG = [
 'sharing.force_share_accept' => false,
 
 /**
+ * Set to false to prevent users from setting a custom share_folder
+ */
+'sharing.allow_custom_share_folder' => true,
+
+/**
  * Set to false to stop sending a mail when users receive a share
  */
 'sharing.enable_share_mail' => true,
 
+/**
+ * Set to true to always transfer incoming shares by default
+ * when running "occ files:transfer-ownership".
+ * Defaults to false, so incoming shares are not transferred if not specifically requested
+ * by a command line argument.
+ */
+'transferIncomingShares' => false,
 
 /**
  * All other configuration options
@@ -1552,6 +1566,24 @@ $CONFIG = [
  * http://mechanics.flite.com/blog/2014/07/29/using-innodb-large-prefix-to-avoid-error-1071/
  */
 'mysql.utf8mb4' => false,
+
+/**
+ * For search queries in the database, a default collation – depending on the
+ * character set – is chosen. In some cases a different behaviour is desired,
+ * for instances when a accent sensitive search is desired.
+ *
+ * MariaDB and MySQL have an overlap in available collations, but also
+ * incompatible ones, also depending on the version of the database server.
+ *
+ * This option allows to override the automatic choice. Example:
+ *
+ * 'mysql.collation' => 'utf8mb4_0900_as_ci',
+ *
+ * This setting has no effect on setup or creating tables. In those cases
+ * always utf8[mb4]_bin is being used. This setting is only taken into
+ * consideration in SQL queries that utilize LIKE comparison operators.
+ */
+'mysql.collation' => null,
 
 /**
  * Database types that are supported for installation.

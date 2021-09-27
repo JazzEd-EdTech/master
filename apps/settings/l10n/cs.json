@@ -216,6 +216,9 @@
     "Primary email for password reset and notifications" : "Hlavní e-mail pro resetování hesla a oznamování",
     "Remove primary email" : "Odebrat hlavní e-mail",
     "Delete email" : "Smazat e-mail",
+    "Unset as primary email" : "Zrušeno nastavení coby hlavního e-mailu",
+    "This address is not confirmed" : "Z této adresy jste ještě nepotvrdili ověřovací e-mail",
+    "Set as primary email" : "Nastavit jako hlavní e-mai",
     "Your email address" : "Vaše e-mailová adresa",
     "Additional email address {index}" : "Další e-mailová adresa {index}",
     "No email address set" : "E-mailová adresa není nastavena",
@@ -383,6 +386,7 @@
     "Use system cron service to call the cron.php file every 5 minutes." : "Použít systémový plánovač (cron) pro volání souboru cron.php každých 5 minut.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Je třeba, aby cron.php bylo spouštěno s právy systémového uživatele „%s“.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Pro spuštění je potřeba PHP POSIX rozšíření. Více informací lze nalézt v {linkstart}dokumentaci k PHP{linkend}.",
+    "You need to enable the File sharing App." : "Je třeba zapnout aplikaci pro sdílení souborů",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Jako správce můžete upravit chování sdílení. Více informací naleznete v dokumentaci.",
     "Allow apps to use the Share API" : "Umožnit aplikacím používat aplikační program. rozhraní (API) pro práci se sdíleními",
     "Set default expiration date for shares" : "Nastavit výchozí datum skončení platnosti pro sdílení",
@@ -466,6 +470,7 @@
     "No display name set" : "Nenastaveno žádné zobrazované jméno",
     "For password reset and notifications" : "Pro znovunastavení hesla a upozorňování",
     "Change privacy level of full name" : "Změnit úroveň soukromí pro celé jméno",
-    "Change privacy level of email" : "Změnit úroveň soukromí e-mailu"
+    "Change privacy level of email" : "Změnit úroveň soukromí e-mailu",
+    "Set as primary mail" : "Nastavit jako hlavní e-mai"
 },"pluralForm" :"nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;"
 }

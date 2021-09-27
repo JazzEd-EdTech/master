@@ -106,7 +106,7 @@ OC.L10N.register(
     "Welcome to your %s account, you can add, protect, and share your data." : "Witamy na koncie %s, możesz dodawać, chronić i udostępniać swoje dane.",
     "Your username is: %s" : "Twoja nazwa użytkownika to: %s",
     "Set your password" : "Ustaw hasło",
-    "Go to %s" : "Idź do: %s",
+    "Go to %s" : "Przejdź do %s",
     "Install Client" : "Zainstaluj klienta",
     "Logged in user must be a subadmin" : "Zalogowany użytkownik musi być współadminem",
     "Apps" : "Aplikacje",
@@ -218,6 +218,9 @@ OC.L10N.register(
     "Primary email for password reset and notifications" : "Główny adres e-mail do resetowania hasła i powiadomień",
     "Remove primary email" : "Usuń podstawowy adres e-mail",
     "Delete email" : "Usuń e-mail",
+    "Unset as primary email" : "Usuń jako podstawowy adres e-mail",
+    "This address is not confirmed" : "Ten adres nie jest potwierdzony",
+    "Set as primary email" : "Ustaw jako podstawowy adres e-mail",
     "Your email address" : "Twój adres e-mail",
     "Additional email address {index}" : "Dodatkowy adres e-mail {index}",
     "No email address set" : "Brak adresu e-mail",
@@ -385,6 +388,7 @@ OC.L10N.register(
     "Use system cron service to call the cron.php file every 5 minutes." : "Użyj usługi systemowej cron, aby wywoływać plik cron.php co 5 minut.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Cron.php musi zostać wykonywany przez użytkownika systemu \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Dla uruchomienia tego potrzebujesz rozszerzenia PHP POSIX. Zobacz {linkstart}dokumentację PHP{linkend}, aby uzyskać więcej szczegółów.",
+    "You need to enable the File sharing App." : "Musisz włączyć aplikację do udostępniania plików.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Jako administrator możesz zoptymalizować ustawienia udostępniania. Szczegółowe informacje znajdziesz w dokumentacji.",
     "Allow apps to use the Share API" : "Zezwalaj aplikacjom na korzystanie z API udostępniania",
     "Set default expiration date for shares" : "Ustaw domyślną datę ważności udostępnień",
@@ -468,6 +472,7 @@ OC.L10N.register(
     "No display name set" : "Brak wyświetlanej nazwy",
     "For password reset and notifications" : "Dla powiadomień i resetowania hasła",
     "Change privacy level of full name" : "Zmień poziom prywatności pełnej nazwy",
-    "Change privacy level of email" : "Zmień poziom prywatności adresu e-mail"
+    "Change privacy level of email" : "Zmień poziom prywatności adresu e-mail",
+    "Set as primary mail" : "Ustaw jako podstawową pocztę"
 },
 "nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

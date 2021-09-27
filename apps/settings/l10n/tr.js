@@ -218,6 +218,9 @@ OC.L10N.register(
     "Primary email for password reset and notifications" : "Parola sıfırlama ve bildirimler için birincil e-posta adresi",
     "Remove primary email" : "Birincil e-posta adresini sil",
     "Delete email" : "E-posta adresini sil",
+    "Unset as primary email" : "Birincil e-posta işaretini kaldır",
+    "This address is not confirmed" : "Bu adres doğrulanmamış",
+    "Set as primary email" : "Birincil e-posta olarak ayarla",
     "Your email address" : "E-posta adresiniz",
     "Additional email address {index}" : "{index}. ek e-posta adresi",
     "No email address set" : "E-posta adresi belirtilmemiş",
@@ -385,6 +388,7 @@ OC.L10N.register(
     "Use system cron service to call the cron.php file every 5 minutes." : "5 dakikada bir cron.php dosyasının çağrılması için sistem cron hizmeti kullanılsın.",
     "The cron.php needs to be executed by the system user \"%s\"." : "cron.php dosyası \"%s\" sistem kullanıcısı tarafından yürütülmelidir.",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Bunu çalıştıraiblmek için PHP POSIX eklentisi gereklidir. Ayrıntılı bilgi almak için {linkstart}PHP belgelerine{linkend} bakabilirsiniz.",
+    "You need to enable the File sharing App." : "Dosya paylaşımı uygulamasını etkinleştirmelisiniz.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Yönetici olarak paylaşma davranışı ile ilgili ince ayarları yapabilirsiniz. Ayrıntılı bilgi almak için belgelere bakabilirsiniz.",
     "Allow apps to use the Share API" : "Uygulamalar Paylaşım API kullanabilsin",
     "Set default expiration date for shares" : "Paylaşımların varsayılan kullanma süresi sonu",
@@ -468,6 +472,7 @@ OC.L10N.register(
     "No display name set" : "Görüntülenecek ad belirtilmemiş",
     "For password reset and notifications" : "Parola sıfırlama ve bildirimler için",
     "Change privacy level of full name" : "Tam adın gizlilik düzeyini değiştir",
-    "Change privacy level of email" : "E-posta adresinin gizlilik düzeyini değiştir"
+    "Change privacy level of email" : "E-posta adresinin gizlilik düzeyini değiştir",
+    "Set as primary mail" : "Birincil e-posta olarak işaretle"
 },
 "nplurals=2; plural=(n > 1);");

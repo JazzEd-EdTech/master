@@ -25,7 +25,7 @@
 			:account-property="accountProperty"
 			label-for="email"
 			:handle-scope-change="savePrimaryEmailScope"
-			:is-editable="displayNameChangeSupported"
+			:is-editable="true"
 			:is-multi-value-supported="true"
 			:is-valid-section="isValidSection"
 			:scope.sync="primaryEmail.scope"
@@ -36,19 +36,23 @@
 				:primary="true"
 				:scope.sync="primaryEmail.scope"
 				:email.sync="primaryEmail.value"
-				@update:email="onUpdateEmail" />
-			<Email v-for="(additionalEmail, index) in additionalEmails"
-				:key="index"
-				:index="index"
-				:scope.sync="additionalEmail.scope"
-				:email.sync="additionalEmail.value"
+				:active-notification-email.sync="notificationEmail"
 				@update:email="onUpdateEmail"
-				@delete-additional-email="onDeleteAdditionalEmail(index)" />
+				@update:notification-email="onUpdateNotificationEmail" />
 		</template>
-
 		<span v-else>
 			{{ primaryEmail.value || t('settings', 'No email address set') }}
 		</span>
+		<Email v-for="(additionalEmail, index) in additionalEmails"
+			:key="index"
+			:index="index"
+			:scope.sync="additionalEmail.scope"
+			:email.sync="additionalEmail.value"
+			:local-verification-state="parseInt(additionalEmail.locallyVerified, 10)"
+			:active-notification-email.sync="notificationEmail"
+			@update:email="onUpdateEmail"
+			@update:notification-email="onUpdateNotificationEmail"
+			@delete-additional-email="onDeleteAdditionalEmail(index)" />
 	</section>
 </template>
 
@@ -63,7 +67,7 @@ import { ACCOUNT_PROPERTY_READABLE_ENUM, DEFAULT_ADDITIONAL_EMAIL_SCOPE } from '
 import { savePrimaryEmail, savePrimaryEmailScope, removeAdditionalEmail } from '../../../service/PersonalInfo/EmailService'
 import { validateEmail } from '../../../utils/validate'
 
-const { emails: { additionalEmails, primaryEmail } } = loadState('settings', 'personalInfoParameters', {})
+const { emails: { additionalEmails, primaryEmail, notificationEmail } } = loadState('settings', 'personalInfoParameters', {})
 const { displayNameChangeSupported } = loadState('settings', 'accountParameters', {})
 
 export default {
@@ -81,6 +85,7 @@ export default {
 			displayNameChangeSupported,
 			primaryEmail,
 			savePrimaryEmailScope,
+			notificationEmail,
 		}
 	},
 
@@ -125,6 +130,10 @@ export default {
 				this.primaryEmailValue = deletedEmail
 				await this.updatePrimaryEmail()
 			}
+		},
+
+		async onUpdateNotificationEmail(email) {
+			this.notificationEmail = email
 		},
 
 		async updatePrimaryEmail() {

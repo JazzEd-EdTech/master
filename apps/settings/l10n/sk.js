@@ -218,6 +218,9 @@ OC.L10N.register(
     "Primary email for password reset and notifications" : "Primárny e-mail na obnovenie hesla a zasielanie upozornení",
     "Remove primary email" : "Odobrať primárny email",
     "Delete email" : "Zmazať email",
+    "Unset as primary email" : "Zrušiť nastavenie ako primárny e-mail",
+    "This address is not confirmed" : "Táto adresa nie je potvrdená",
+    "Set as primary email" : "Nastaviť ako primárny e-mail",
     "Your email address" : "Vaša emailová adresa",
     "Additional email address {index}" : "Ďaľšia e-mail adresa {index}",
     "No email address set" : "Emailová adresa nie je nastavená",
@@ -264,6 +267,7 @@ OC.L10N.register(
     "No users in here" : "Nie sú tu žiadni používatelia",
     "Default quota" : "Predvolená kvóta",
     "Common languages" : "Spoločné jazyky",
+    "Other languages" : "Iné jazyky",
     "Password change is disabled because the master key is disabled" : "Zmena hesla je zablokovaná pretože hlavný kľúč je vypnutý",
     "Passwordless authentication requires a secure connection." : "Overenie bez hesla vyžaduje zabezpečné pripojenie.",
     "Add WebAuthn device" : "Pridať zariadenie WebAuthn",
@@ -384,6 +388,7 @@ OC.L10N.register(
     "Use system cron service to call the cron.php file every 5 minutes." : "Použiť systémový plánovač (cron) pre spustenie súboru cron.php každých 5 minút.",
     "The cron.php needs to be executed by the system user \"%s\"." : "Je potrebné, aby cron.php bol spustený systémovým používateľom \"%s\".",
     "To run this you need the PHP POSIX extension. See {linkstart}PHP documentation{linkend} for more details." : "Pre spustenie potrebujete mať rozšírenie PHP POSIX. Viac detailov v {linkstart}PHP dokumentácii{linkend}.",
+    "You need to enable the File sharing App." : "Musíte povoliť Aplikáciu pre zdieľanie súborov.",
     "As admin you can fine-tune the sharing behavior. Please see the documentation for more information." : "Ako administrátor môžete nastaviť správanie sprístupňovania. Pre viac informácií pozrite dokumentáciu.",
     "Allow apps to use the Share API" : "Povoliť aplikáciám používať API pre sprístupňovanie",
     "Set default expiration date for shares" : "Nastavte predvolený dátum expirácie pre zdieľania",
@@ -467,6 +472,7 @@ OC.L10N.register(
     "No display name set" : "Zobrazované meno nie je nastavené",
     "For password reset and notifications" : "Na znovu-nastavenie hesla a oznámení",
     "Change privacy level of full name" : "Zmeniť úroveň súkromia pre celé meno",
-    "Change privacy level of email" : "Zmeniť úroveň súkromia pre email"
+    "Change privacy level of email" : "Zmeniť úroveň súkromia pre email",
+    "Set as primary mail" : "Nastaviť ako primárny e-mail"
 },
 "nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);");
