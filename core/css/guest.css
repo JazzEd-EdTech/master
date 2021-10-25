@@ -151,6 +151,7 @@ form #datadirField legend {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding: 10px 5px;
 	position: relative; /* Make the wrapper the containing block of its
 						   absolutely positioned descendant icons */
 }
@@ -164,7 +165,7 @@ form #datadirField legend {
 }
 
 .alternative-logins a.button {
-	margin: 10px 5px;
+	margin: 0;
 	display: block;
 	font-size: 15px;
 	white-space: nowrap;
@@ -207,7 +208,6 @@ form #datadirField legend {
 #submit-wrapper .submit-icon,
 #reset-password-wrapper .submit-icon {
 	position: absolute;
-	top: 22px;
 	right: 24px;
 	transition: right 100ms ease-in-out;
 	pointer-events: none; /* The submit icon is positioned on the submit button.

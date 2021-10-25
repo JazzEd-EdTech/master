@@ -40,11 +40,13 @@ declare(strict_types=1);
  */
 namespace OC;
 
+use OC\App\AppManager;
 use OC\DB\Connection;
 use OC\DB\MigrationService;
 use OC\Hooks\BasicEmitter;
 use OC\IntegrityCheck\Checker;
 use OC_App;
+use OCP\App\IAppManager;
 use OCP\HintException;
 use OCP\IConfig;
 use OCP\ILogger;
@@ -265,10 +267,15 @@ class Updater extends BasicEmitter {
 		// Update the appfetchers version so it downloads the correct list from the appstore
 		\OC::$server->getAppFetcher()->setVersion($currentVersion);
 
+		/** @var IAppManager|AppManager $appManager */
+		$appManager = \OC::$server->getAppManager();
+
 		// upgrade appstore apps
-		$this->upgradeAppStoreApps(\OC::$server->getAppManager()->getInstalledApps());
-		$autoDisabledApps = \OC::$server->getAppManager()->getAutoDisabledApps();
-		$this->upgradeAppStoreApps($autoDisabledApps, true);
+		$this->upgradeAppStoreApps($appManager->getInstalledApps());
+		$autoDisabledApps = $appManager->getAutoDisabledApps();
+		if (!empty($autoDisabledApps)) {
+			$this->upgradeAppStoreApps(array_keys($autoDisabledApps), $autoDisabledApps);
+		}
 
 		// install new shipped apps on upgrade
 		$errors = Installer::installShippedApps(true);
@@ -362,14 +369,12 @@ class Updater extends BasicEmitter {
 	 * This is important if you upgrade ownCloud and have non ported 3rd
 	 * party apps installed.
 	 *
-	 * @return array
 	 * @throws \Exception
 	 */
-	private function checkAppsRequirements(): array {
+	private function checkAppsRequirements(): void {
 		$isCoreUpgrade = $this->isCodeUpgrade();
 		$apps = OC_App::getEnabledApps();
 		$version = implode('.', Util::getVersion());
-		$disabledApps = [];
 		$appManager = \OC::$server->getAppManager();
 		foreach ($apps as $app) {
 			// check if the app is compatible with this version of Nextcloud
@@ -378,23 +383,10 @@ class Updater extends BasicEmitter {
 				if ($appManager->isShipped($app)) {
 					throw new \UnexpectedValueException('The files of the app "' . $app . '" were not correctly replaced before running the update');
 				}
-				\OC::$server->getAppManager()->disableApp($app, true);
+				$appManager->disableApp($app, true);
 				$this->emit('\OC\Updater', 'incompatibleAppDisabled', [$app]);
 			}
-			// no need to disable any app in case this is a non-core upgrade
-			if (!$isCoreUpgrade) {
-				continue;
-			}
-			// shipped apps will remain enabled
-			if ($appManager->isShipped($app)) {
-				continue;
-			}
-			// authentication and session apps will remain enabled as well
-			if (OC_App::isType($app, ['session', 'authentication'])) {
-				continue;
-			}
 		}
-		return $disabledApps;
 	}
 
 	/**
@@ -410,12 +402,12 @@ class Updater extends BasicEmitter {
 	}
 
 	/**
-	 * @param array $disabledApps
-	 * @param bool $reenable
+	 * @param array $apps
+	 * @param array $previousEnableStates
 	 * @throws \Exception
 	 */
-	private function upgradeAppStoreApps(array $disabledApps, bool $reenable = false): void {
-		foreach ($disabledApps as $app) {
+	private function upgradeAppStoreApps(array $apps, array $previousEnableStates = []): void {
+		foreach ($apps as $app) {
 			try {
 				$this->emit('\OC\Updater', 'checkAppStoreAppBefore', [$app]);
 				if ($this->installer->isUpdateAvailable($app)) {
@@ -424,9 +416,13 @@ class Updater extends BasicEmitter {
 				}
 				$this->emit('\OC\Updater', 'checkAppStoreApp', [$app]);
 
-				if ($reenable) {
+				if (!empty($previousEnableStates)) {
 					$ocApp = new \OC_App();
-					$ocApp->enable($app);
+					if (!empty($previousEnableStates[$app])) {
+						$ocApp->enable($app, $previousEnableStates[$app]);
+					} else {
+						$ocApp->enable($app);
+					}
 				}
 			} catch (\Exception $ex) {
 				$this->log->error($ex->getMessage(), [

@@ -109,8 +109,14 @@ $invert: luma($color-primary) > 0.6;
 	background-image: $image-logo;
 }
 
-#body-user #header, #body-settings #header, #body-public #header {
-	@include faded-background;
+#body-user,
+#body-settings,
+#body-public {
+	#header,
+	.profile__header,
+	.preview-card__header {
+		@include faded-background;
+	}
 }
 
 #body-login,
@@ -260,6 +266,9 @@ input.primary,
 
 /** Handle primary buttons for bright colors */
 @if (luma($color-primary) > 0.8) {
+	:root {
+		--color-primary-light-text: var(--color-primary-text);
+	}
 	select,
 	button, .button,
 	input:not([type='range']),
@@ -278,7 +287,6 @@ input.primary,
 			}
 		}
 	}
-
 }
 
 @if ($color-primary == #ffffff) {

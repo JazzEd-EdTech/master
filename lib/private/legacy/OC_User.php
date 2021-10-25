@@ -35,6 +35,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>
  *
  */
+
+use OC\User\LoginException;
 use OCP\EventDispatcher\IEventDispatcher;
 use OCP\ILogger;
 use OCP\IUserManager;
@@ -170,6 +172,10 @@ class OC_User {
 			if (self::getUser() !== $uid) {
 				self::setUserId($uid);
 				$userSession = \OC::$server->getUserSession();
+				if ($userSession->getUser() && !$userSession->getUser()->isEnabled()) {
+					$message = \OC::$server->getL10N('lib')->t('User disabled');
+					throw new LoginException($message);
+				}
 				$userSession->setLoginName($uid);
 				$request = OC::$server->getRequest();
 				$userSession->createSessionToken($request, $uid, $uid);
@@ -184,7 +190,7 @@ class OC_User {
 					'post_login',
 					[
 						'uid' => $uid,
-						'password' => '',
+						'password' => null,
 						'isTokenLogin' => false,
 					]
 				);
@@ -193,7 +199,7 @@ class OC_User {
 				$dispatcher->dispatchTyped(new UserLoggedInEvent(
 						\OC::$server->get(IUserManager::class)->get($uid),
 						$uid,
-						'',
+						null,
 						false)
 				);
 

@@ -254,6 +254,12 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
 						});
 					}
+					if (!data.isFairUseOfFreePushService) {
+						messages.push({
+							msg: t('core', 'This is the unsupported community build of Nextcloud. Given the size of this instance, performance, reliability and scalability cannot be guaranteed. Push notifications have been disabled to avoid overloading our free service. Learn more about the benefits of Nextcloud Enterprise at nextcloud.com/enterprise.'),
+							type: OC.SetupChecks.MESSAGE_TYPE_ERROR
+						});
+					}
 					if (data.serverHasInternetConnectionProblems) {
 						messages.push({
 							msg: t('core', 'This server has no working internet connection: Multiple endpoints could not be reached. This means that some of the features like mounting external storage, notifications about updates or installation of third-party apps will not work. Accessing files remotely and sending of notification emails might not work, either. Establish a connection from this server to the internet to enjoy all features.'),
@@ -290,9 +296,9 @@
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}
-					if (data.phpSupported && data.phpSupported.version.substr(0, 3) === '7.2') {
+					if (data.phpSupported && data.phpSupported.version.substr(0, 3) === '7.3') {
 						messages.push({
-							msg: t('core', 'Nextcloud 20 is the last release supporting PHP 7.2. Nextcloud 21 requires at least PHP 7.3.'),
+							msg: t('core', 'Nextcloud 23 is the last release supporting PHP 7.3. Nextcloud 24 requires at least PHP 7.4.'),
 							type: OC.SetupChecks.MESSAGE_TYPE_INFO
 						})
 					}

@@ -987,7 +987,13 @@ class OC {
 			} else {
 				// For guests: Load only filesystem and logging
 				OC_App::loadApps(['filesystem', 'logging']);
-				self::handleLogin($request);
+
+				// Don't try to login when a client is trying to get a OAuth token.
+				// OAuth needs to support basic auth too, so the login is not valid
+				// inside Nextcloud and the Login exception would ruin it.
+				if ($request->getRawPathInfo() !== '/apps/oauth2/api/v1/token') {
+					self::handleLogin($request);
+				}
 			}
 		}
 
@@ -1021,12 +1027,10 @@ class OC {
 			OC_App::loadApps();
 			OC_User::setupBackends();
 			OC_Util::setupFS();
-			// FIXME
-			// Redirect to default application
-			OC_Util::redirectToDefaultPage();
+			header('Location: ' . \OC::$server->getURLGenerator()->linkToDefaultPageUrl());
 		} else {
 			// Not handled and not logged in
-			header('Location: '.\OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
+			header('Location: ' . \OC::$server->getURLGenerator()->linkToRouteAbsolute('core.login.showLoginForm'));
 		}
 	}
 

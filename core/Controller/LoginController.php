@@ -38,7 +38,6 @@ use OC\Authentication\WebAuthn\Manager as WebAuthnManager;
 use OC\Security\Bruteforce\Throttler;
 use OC\User\Session;
 use OC_App;
-use OC_Util;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\DataResponse;
@@ -47,6 +46,7 @@ use OCP\AppFramework\Http\TemplateResponse;
 use OCP\Defaults;
 use OCP\IConfig;
 use OCP\IInitialStateService;
+use OCP\IL10N;
 use OCP\ILogger;
 use OCP\IRequest;
 use OCP\ISession;
@@ -54,6 +54,7 @@ use OCP\IURLGenerator;
 use OCP\IUser;
 use OCP\IUserManager;
 use OCP\IUserSession;
+use OCP\Notification\IManager;
 use OCP\Util;
 
 class LoginController extends Controller {
@@ -82,6 +83,10 @@ class LoginController extends Controller {
 	private $initialStateService;
 	/** @var WebAuthnManager */
 	private $webAuthnManager;
+	/** @var IManager */
+	private $manager;
+	/** @var IL10N */
+	private $l10n;
 
 	public function __construct(?string $appName,
 								IRequest $request,
@@ -95,7 +100,9 @@ class LoginController extends Controller {
 								Throttler $throttler,
 								Chain $loginChain,
 								IInitialStateService $initialStateService,
-								WebAuthnManager $webAuthnManager) {
+								WebAuthnManager $webAuthnManager,
+								IManager $manager,
+								IL10N $l10n) {
 		parent::__construct($appName, $request);
 		$this->userManager = $userManager;
 		$this->config = $config;
@@ -108,6 +115,8 @@ class LoginController extends Controller {
 		$this->loginChain = $loginChain;
 		$this->initialStateService = $initialStateService;
 		$this->webAuthnManager = $webAuthnManager;
+		$this->manager = $manager;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -150,10 +159,16 @@ class LoginController extends Controller {
 	 */
 	public function showLoginForm(string $user = null, string $redirect_url = null): Http\Response {
 		if ($this->userSession->isLoggedIn()) {
-			return new RedirectResponse(OC_Util::getDefaultPageUrl());
+			return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 		}
 
 		$loginMessages = $this->session->get('loginMessages');
+		if (!$this->manager->isFairUseOfFreePushService()) {
+			if (!is_array($loginMessages)) {
+				$loginMessages = [[], []];
+			}
+			$loginMessages[1][] = $this->l10n->t('This community release of Nextcloud is unsupported and instant notifications are unavailable.');
+		}
 		if (is_array($loginMessages)) {
 			[$errors, $messages] = $loginMessages;
 			$this->initialStateService->provideInitialState('core', 'loginMessages', $messages);
@@ -274,7 +289,7 @@ class LoginController extends Controller {
 				return new RedirectResponse($location);
 			}
 		}
-		return new RedirectResponse(OC_Util::getDefaultPageUrl());
+		return new RedirectResponse($this->urlGenerator->linkToDefaultPageUrl());
 	}
 
 	/**

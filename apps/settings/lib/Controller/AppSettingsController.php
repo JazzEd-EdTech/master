@@ -131,7 +131,7 @@ class AppSettingsController extends Controller {
 	public function viewApps(): TemplateResponse {
 		\OC_Util::addScript('settings', 'apps');
 		$params = [];
-		$params['appstoreEnabled'] = $this->config->getSystemValue('appstoreenabled', true) === true;
+		$params['appstoreEnabled'] = $this->config->getSystemValueBool('appstoreenabled', true);
 		$params['updateCount'] = count($this->getAppsWithUpdates());
 		$params['developerDocumentation'] = $this->urlGenerator->linkToDocs('developer-manual');
 		$params['bundles'] = $this->getBundles();
@@ -204,12 +204,17 @@ class AppSettingsController extends Controller {
 		}
 
 		$apps = $this->getAppsForCategory('');
+		$supportedApps = $appClass->getSupportedApps();
 		foreach ($apps as $app) {
 			$app['appstore'] = true;
 			if (!array_key_exists($app['id'], $this->allApps)) {
 				$this->allApps[$app['id']] = $app;
 			} else {
 				$this->allApps[$app['id']] = array_merge($app, $this->allApps[$app['id']]);
+			}
+
+			if (in_array($app['id'], $supportedApps)) {
+				$this->allApps[$app['id']]['level'] = \OC_App::supportedApp;
 			}
 		}
 

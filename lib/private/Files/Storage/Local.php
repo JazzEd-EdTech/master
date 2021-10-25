@@ -216,7 +216,7 @@ class Local extends \OC\Files\Storage\Common {
 	}
 
 	public function filesize($path) {
-		if ($this->is_dir($path)) {
+		if (!$this->is_file($path)) {
 			return 0;
 		}
 		$fullPath = $this->getSourcePath($path);
@@ -525,7 +525,10 @@ class Local extends \OC\Files\Storage\Common {
 	 * @return bool
 	 */
 	public function copyFromStorage(IStorage $sourceStorage, $sourceInternalPath, $targetInternalPath, $preserveMtime = false) {
-		if ($sourceStorage->instanceOfStorage(Local::class)) {
+		// Don't treat ACLStorageWrapper like local storage where copy can be done directly.
+		// Instead use the slower recursive copying in php from Common::copyFromStorage with
+		// more permissions checks.
+		if ($sourceStorage->instanceOfStorage(Local::class) && !$sourceStorage->instanceOfStorage('OCA\GroupFolders\ACL\ACLStorageWrapper')) {
 			if ($sourceStorage->instanceOfStorage(Jail::class)) {
 				/**
 				 * @var \OC\Files\Storage\Wrapper\Jail $sourceStorage
@@ -568,8 +571,11 @@ class Local extends \OC\Files\Storage\Common {
 
 	public function writeStream(string $path, $stream, int $size = null): int {
 		$result = $this->file_put_contents($path, $stream);
+		if (is_resource($stream)) {
+			fclose($stream);
+		}
 		if ($result === false) {
-			throw new GenericFileException("Failed write steam to $path");
+			throw new GenericFileException("Failed write stream to $path");
 		} else {
 			return $result;
 		}

@@ -945,7 +945,7 @@
 					var mime = this.fileActions.getCurrentMimeType();
 					var type = this.fileActions.getCurrentType();
 					var permissions = this.fileActions.getCurrentPermissions();
-					var action = this.fileActions.get(mime, type, permissions)['Details'];
+					var action = this.fileActions.get(mime, type, permissions, filename)['Details'];
 					if (action) {
 						action(filename, {
 							$file: $tr,
@@ -2945,7 +2945,7 @@
 				} catch (error) {
 					input.attr('title', error);
 					input.tooltip({placement: 'right', trigger: 'manual'});
-					input.tooltip('fixTitle');
+					input.tooltip('_fixTitle');
 					input.tooltip('show');
 					input.addClass('error');
 				}
@@ -2960,7 +2960,7 @@
 				} catch (error) {
 					input.attr('title', error);
 					input.tooltip({placement: 'right', trigger: 'manual'});
-					input.tooltip('fixTitle');
+					input.tooltip('_fixTitle');
 					input.tooltip('show');
 					input.addClass('error');
 				}

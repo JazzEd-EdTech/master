@@ -26,6 +26,7 @@ declare(strict_types=1);
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 namespace OCP\AppFramework\Bootstrap;
 
 use OCP\AppFramework\IAppContainer;
@@ -35,6 +36,7 @@ use OCP\EventDispatcher\IEventDispatcher;
 use OCP\Files\Template\ICustomTemplateProvider;
 use OCP\IContainer;
 use OCP\Notification\INotifier;
+use OCP\Preview\IProviderV2;
 
 /**
  * The context object passed to IBootstrap::register
@@ -74,6 +76,7 @@ interface IRegistrationContext {
 	 * @since 20.0.0
 	 */
 	public function registerDashboardWidget(string $widgetClass): void;
+
 	/**
 	 * Register a service
 	 *
@@ -228,4 +231,36 @@ interface IRegistrationContext {
 	 * @since 22.0.0
 	 */
 	public function registerTwoFactorProvider(string $twoFactorProviderClass): void;
+
+	/**
+	 * Register a preview provider
+	 *
+	 * It is allowed to register more than one provider per app.
+	 *
+	 * @param string $previewProviderClass
+	 * @param string $mimeTypeRegex
+	 * @psalm-param class-string<IProviderV2> $previewProviderClass
+	 * @since 23.0.0
+	 */
+	public function registerPreviewProvider(string $previewProviderClass, string $mimeTypeRegex): void;
+
+	/**
+	 * Register a calendar provider
+	 *
+	 * @param string $class
+	 * @psalm-param class-string<IProvider> $class
+	 * @since 23.0.0
+	 */
+	public function registerCalendarProvider(string $class): void;
+
+	/**
+	 * Register an implementation of \OCP\Profile\ILinkAction that
+	 * will handle the implementation of a profile action
+	 *
+	 * @param string $actionClass
+	 * @psalm-param class-string<\OCP\Profile\ILinkAction> $actionClass
+	 * @return void
+	 * @since 23.0.0
+	 */
+	public function registerProfileAction(string $actionClass): void;
 }

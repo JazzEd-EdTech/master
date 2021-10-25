@@ -498,6 +498,9 @@ abstract class Storage extends \Test\TestCase {
 		$this->assertTrue($this->instance->file_exists('target/subfolder'));
 		$this->assertTrue($this->instance->file_exists('target/subfolder/test.txt'));
 
+		$contents = iterator_to_array($this->instance->getDirectoryContent(''));
+		$this->assertCount(1, $contents);
+
 		$this->assertEquals('foo', $this->instance->file_get_contents('target/test1.txt'));
 		$this->assertEquals('qwerty', $this->instance->file_get_contents('target/test2.txt'));
 		$this->assertEquals('bar', $this->instance->file_get_contents('target/subfolder/test.txt'));
@@ -658,6 +661,7 @@ abstract class Storage extends \Test\TestCase {
 
 		$storage->writeStream('test.txt', $source);
 		$this->assertTrue($storage->file_exists('test.txt'));
-		$this->assertEquals(file_get_contents($textFile), $storage->file_get_contents('test.txt'));
+		$this->assertStringEqualsFile($textFile, $storage->file_get_contents('test.txt'));
+		$this->assertEquals('resource (closed)', gettype($source));
 	}
 }

@@ -142,9 +142,6 @@
     </InvalidArgument>
   </file>
   <file src="apps/dav/lib/CalDAV/BirthdayService.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>$user['uri']</code>
-    </InvalidArrayOffset>
     <UndefinedMethod occurrences="2">
       <code>setDateTime</code>
       <code>setDateTime</code>
@@ -789,11 +786,10 @@
       <code>array</code>
       <code>string</code>
     </InvalidNullableReturnType>
-    <InvalidReturnStatement occurrences="2">
+    <InvalidReturnStatement occurrences="1">
       <code>$principals</code>
     </InvalidReturnStatement>
-    <InvalidReturnType occurrences="2">
-      <code>string[]</code>
+    <InvalidReturnType occurrences="1">
       <code>string[]</code>
     </InvalidReturnType>
     <MoreSpecificImplementedParamType occurrences="1">
@@ -1018,6 +1014,11 @@
     <UndefinedFunction occurrences="1">
       <code>\Sabre\Uri\split($this-&gt;principalInfo['uri'])</code>
     </UndefinedFunction>
+  </file>
+  <file src="apps/encryption/lib/Command/FixEncryptedVersion.php">
+    <TypeDoesNotContainNull occurrences="1">
+      <code>$user === null</code>
+    </TypeDoesNotContainNull>
   </file>
   <file src="apps/encryption/lib/Command/ScanLegacyFormat.php">
     <InvalidOperand occurrences="1">
@@ -1277,28 +1278,18 @@
       <code>$this</code>
     </InvalidScope>
   </file>
-  <file src="apps/files_external/lib/Command/Applicable.php">
-    <InvalidArgument occurrences="1">
-      <code>$mountId</code>
-    </InvalidArgument>
-  </file>
-  <file src="apps/files_external/lib/Command/Config.php">
-    <InvalidArgument occurrences="1">
-      <code>$mountId</code>
-    </InvalidArgument>
-  </file>
   <file src="apps/files_external/lib/Command/Delete.php">
-    <InvalidArgument occurrences="2">
-      <code>$mountId</code>
-      <code>$mountId</code>
-    </InvalidArgument>
     <NullArgument occurrences="1">
       <code>null</code>
     </NullArgument>
   </file>
+  <file src="apps/files_external/lib/Command/ListCommand.php">
+    <InvalidScalarArgument occurrences="1">
+      <code>$userId</code>
+    </InvalidScalarArgument>
+  </file>
   <file src="apps/files_external/lib/Command/Notify.php">
-    <InvalidArgument occurrences="2">
-      <code>$input-&gt;getArgument('mount_id')</code>
+    <InvalidArgument occurrences="1">
       <code>$storage</code>
     </InvalidArgument>
     <InvalidReturnStatement occurrences="1"/>
@@ -1313,9 +1304,6 @@
     </UndefinedInterfaceMethod>
   </file>
   <file src="apps/files_external/lib/Command/Verify.php">
-    <InvalidArgument occurrences="1">
-      <code>$mountId</code>
-    </InvalidArgument>
     <InvalidScalarArgument occurrences="2">
       <code>$e-&gt;getCode()</code>
       <code>$status</code>
@@ -1874,9 +1862,6 @@
     <InvalidScalarArgument occurrences="1">
       <code>$uid</code>
     </InvalidScalarArgument>
-    <UndefinedInterfaceMethod occurrences="1">
-      <code>getLanguages</code>
-    </UndefinedInterfaceMethod>
   </file>
   <file src="apps/sharebymail/lib/ShareByMailProvider.php">
     <InvalidScalarArgument occurrences="4">
@@ -2020,9 +2005,8 @@
     <NullArgument occurrences="1">
       <code>$cookie</code>
     </NullArgument>
-    <RedundantCondition occurrences="4">
+    <RedundantCondition occurrences="3">
       <code>!is_null($limit)</code>
-      <code>!isset($ldapName[0]) &amp;&amp; empty($ldapName[0])</code>
       <code>$limit === 0</code>
       <code>is_array($result)</code>
     </RedundantCondition>
@@ -2291,11 +2275,6 @@
   </file>
   <file src="apps/user_status/lib/Db/UserStatusMapper.php">
     <MoreSpecificImplementedParamType occurrences="1"/>
-  </file>
-  <file src="apps/user_status/lib/Service/StatusService.php">
-    <MismatchingDocblockParamType occurrences="1">
-      <code>string|null</code>
-    </MismatchingDocblockParamType>
   </file>
   <file src="apps/workflowengine/lib/Check/AbstractStringCheck.php">
     <NullArgument occurrences="1">
@@ -2566,11 +2545,6 @@
       <code>1</code>
       <code>1</code>
       <code>1</code>
-    </InvalidScalarArgument>
-  </file>
-  <file src="core/Command/User/Setting.php">
-    <InvalidScalarArgument occurrences="1">
-      <code>$input-&gt;getOption('default-value')</code>
     </InvalidScalarArgument>
   </file>
   <file src="core/Controller/ClientFlowLoginV2Controller.php">
@@ -3822,14 +3796,6 @@
       <code>$this-&gt;e-&gt;getCode()</code>
     </InvalidScalarArgument>
   </file>
-  <file src="lib/private/Files/Storage/Flysystem.php">
-    <ParamNameMismatch occurrences="4">
-      <code>$source</code>
-      <code>$source</code>
-      <code>$target</code>
-      <code>$target</code>
-    </ParamNameMismatch>
-  </file>
   <file src="lib/private/Files/Storage/Local.php">
     <ImplicitToStringCast occurrences="1">
       <code>$file</code>
@@ -4159,8 +4125,7 @@
     <ImplementedReturnTypeMismatch occurrences="1">
       <code>null|string</code>
     </ImplementedReturnTypeMismatch>
-    <LessSpecificImplementedReturnType occurrences="2">
-      <code>array</code>
+    <LessSpecificImplementedReturnType occurrences="1">
       <code>array|mixed</code>
     </LessSpecificImplementedReturnType>
   </file>
@@ -4288,6 +4253,7 @@
     </ParamNameMismatch>
   </file>
   <file src="lib/private/Notification/Manager.php">
+    <InvalidCatch occurrences="3"/>
     <TypeDoesNotContainType occurrences="2">
       <code>!($notification instanceof INotification)</code>
       <code>!($notification instanceof INotification)</code>
@@ -4353,16 +4319,6 @@
       <code>$second</code>
     </InvalidScalarArgument>
   </file>
-  <file src="lib/private/Preview/Office.php">
-    <ForbiddenCode occurrences="3">
-      <code>shell_exec($exec)</code>
-      <code>shell_exec('command -v libreoffice')</code>
-      <code>shell_exec('command -v openoffice')</code>
-    </ForbiddenCode>
-    <ImplicitToStringCast occurrences="1">
-      <code>$png</code>
-    </ImplicitToStringCast>
-  </file>
   <file src="lib/private/Preview/ProviderV1Adapter.php">
     <InvalidReturnStatement occurrences="1">
       <code>$thumbnail === false ? null: $thumbnail</code>
@@ -4383,12 +4339,6 @@
     <ImplicitToStringCast occurrences="1">
       <code>$svg</code>
     </ImplicitToStringCast>
-  </file>
-  <file src="lib/private/PreviewManager.php">
-    <ForbiddenCode occurrences="2">
-      <code>shell_exec('command -v libreoffice')</code>
-      <code>shell_exec('command -v openoffice')</code>
-    </ForbiddenCode>
   </file>
   <file src="lib/private/RedisFactory.php">
     <InvalidScalarArgument occurrences="1">
@@ -4466,9 +4416,6 @@
     <NullableReturnStatement occurrences="1">
       <code>$this-&gt;collectionName</code>
     </NullableReturnStatement>
-    <RedundantCondition occurrences="1">
-      <code>$file !== false</code>
-    </RedundantCondition>
   </file>
   <file src="lib/private/Search.php">
     <RedundantCondition occurrences="1">
@@ -4925,12 +4872,6 @@
       <code>setPassword</code>
     </UndefinedInterfaceMethod>
   </file>
-  <file src="lib/private/UserStatus/Manager.php">
-    <InvalidCatch occurrences="1"/>
-    <InvalidPropertyAssignmentValue occurrences="1">
-      <code>$class</code>
-    </InvalidPropertyAssignmentValue>
-  </file>
   <file src="lib/private/legacy/OC_API.php">
     <InvalidNullableReturnType occurrences="1">
       <code>int</code>
@@ -5035,18 +4976,12 @@
     <InvalidPropertyAssignmentValue occurrences="1">
       <code>$resource</code>
     </InvalidPropertyAssignmentValue>
-    <InvalidReturnType occurrences="1">
-      <code>bool</code>
-    </InvalidReturnType>
     <InvalidScalarArgument occurrences="4">
       <code>$this-&gt;bitDepth</code>
       <code>$x</code>
       <code>$y</code>
       <code>90</code>
     </InvalidScalarArgument>
-    <MismatchingDocblockReturnType occurrences="1">
-      <code>bool</code>
-    </MismatchingDocblockReturnType>
     <RedundantCondition occurrences="1">
       <code>$isWritable</code>
     </RedundantCondition>
