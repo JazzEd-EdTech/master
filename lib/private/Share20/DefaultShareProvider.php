@@ -202,6 +202,10 @@ class DefaultShareProvider implements IShareProvider {
 		// Set the file target
 		$qb->setValue('file_target', $qb->createNamedParameter($share->getTarget()));
 
+		if ($share->getNote() !== '') {
+			$qb->setValue('note', $qb->createNamedParameter($share->getNote()));
+		}
+
 		// Set the time this share was created
 		$qb->setValue('stime', $qb->createNamedParameter(time()));
 
@@ -1363,7 +1367,7 @@ class DefaultShareProvider implements IShareProvider {
 		$best = [];
 		$bestDepth = 0;
 		foreach ($shares as $id => $share) {
-			$depth = substr_count($share['file_target'], '/');
+			$depth = substr_count(($share['file_target'] ?? ''), '/');
 			if (empty($best) || $depth < $bestDepth) {
 				$bestDepth = $depth;
 				$best = [

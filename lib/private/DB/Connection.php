@@ -189,15 +189,20 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * Prepares an SQL statement.
 	 *
 	 * @param string $statement The SQL statement to prepare.
-	 * @param int $limit
-	 * @param int $offset
+	 * @param int|null $limit
+	 * @param int|null $offset
 	 *
 	 * @return Statement The prepared statement.
 	 * @throws Exception
 	 */
 	public function prepare($statement, $limit = null, $offset = null): Statement {
-		if ($limit === -1) {
+		if ($limit === -1 || $limit === null) {
 			$limit = null;
+		} else {
+			$limit = (int) $limit;
+		}
+		if ($offset !== null) {
+			$offset = (int) $offset;
 		}
 		if (!is_null($limit)) {
 			$platform = $this->getDatabasePlatform();
@@ -228,6 +233,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
+		$this->logQueryToFile($sql);
 		return parent::executeQuery($sql, $params, $types, $qcp);
 	}
 
@@ -238,6 +244,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
+		$this->logQueryToFile($sql);
 		return parent::executeUpdate($sql, $params, $types);
 	}
 
@@ -259,7 +266,19 @@ class Connection extends \Doctrine\DBAL\Connection {
 		$sql = $this->replaceTablePrefix($sql);
 		$sql = $this->adapter->fixupStatement($sql);
 		$this->queriesExecuted++;
+		$this->logQueryToFile($sql);
 		return parent::executeStatement($sql, $params, $types);
+	}
+
+	protected function logQueryToFile(string $sql): void {
+		$logFile = $this->systemConfig->getValue('query_log_file', '');
+		if ($logFile !== '' && is_writable($logFile)) {
+			file_put_contents(
+				$this->systemConfig->getValue('query_log_file', ''),
+				$sql . "\n",
+				FILE_APPEND
+			);
+		}
 	}
 
 	/**

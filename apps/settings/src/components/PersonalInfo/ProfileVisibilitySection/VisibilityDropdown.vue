@@ -25,10 +25,11 @@
 		class="visibility-container"
 		:class="{ disabled }">
 		<label :for="inputId">
-			{{ showDisplayId ? t('settings', '{displayId} visibility', { displayId }) : t('settings', 'Visibility on Profile') }}
+			{{ t('settings', '{displayId}', { displayId }) }}
 		</label>
 		<Multiselect
 			:id="inputId"
+			class="visibility-container__multiselect"
 			:options="visibilityOptions"
 			track-by="name"
 			label="label"
@@ -48,7 +49,6 @@ import { saveProfileParameterVisibility } from '../../../service/ProfileService'
 import { validateStringInput } from '../../../utils/validate'
 import { VISIBILITY_PROPERTY_ENUM } from '../../../constants/ProfileConstants'
 
-const { profileConfig } = loadState('settings', 'profileParameters', {})
 const { profileEnabled } = loadState('settings', 'personalInfoParameters', false)
 
 export default {
@@ -67,17 +67,16 @@ export default {
 			type: String,
 			required: true,
 		},
-		showDisplayId: {
-			type: Boolean,
-			default: false,
+		visibility: {
+			type: String,
+			required: true,
 		},
 	},
 
 	data() {
 		return {
-			initialVisibility: profileConfig[this.paramId].visibility,
+			initialVisibility: this.visibility,
 			profileEnabled,
-			visibility: profileConfig[this.paramId].visibility,
 		}
 	},
 
@@ -112,7 +111,7 @@ export default {
 			// This check is needed as the argument is null when selecting the same option
 			if (visibilityObject !== null) {
 				const { name: visibility } = visibilityObject
-				this.visibility = visibility
+				this.$emit('update:visibility', visibility)
 
 				if (validateStringInput(visibility)) {
 					await this.updateVisibility(visibility)
@@ -154,8 +153,8 @@ export default {
 
 <style lang="scss" scoped>
 .visibility-container {
-	margin-top: 16px;
-	display: grid;
+	display: flex;
+	width: max-content;
 
 	&.disabled {
 		filter: grayscale(1);
@@ -172,7 +171,12 @@ export default {
 
 	label {
 		color: var(--color-text-lighter);
-		margin-bottom: 3px;
+		width: 150px;
+		line-height: 50px;
+	}
+
+	&__multiselect {
+		width: 260px;
 	}
 }
 </style>

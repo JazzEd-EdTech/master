@@ -334,8 +334,12 @@ class ShareAPIController extends OCSController {
 	 * @return string
 	 */
 	private function getDisplayNameFromAddressBook(string $query, string $property): string {
-		// FIXME: If we inject the contacts manager it gets initialized bofore any address books are registered
-		$result = \OC::$server->getContactsManager()->search($query, [$property]);
+		// FIXME: If we inject the contacts manager it gets initialized before any address books are registered
+		$result = \OC::$server->getContactsManager()->search($query, [$property], [
+			'limit' => 1,
+			'enumeration' => false,
+			'strict_search' => true,
+		]);
 		foreach ($result as $r) {
 			foreach ($r[$property] as $value) {
 				if ($value === $query && $r['FN']) {
@@ -449,6 +453,7 @@ class ShareAPIController extends OCSController {
 		string $password = '',
 		string $sendPasswordByTalk = null,
 		string $expireDate = '',
+		string $note = '',
 		string $label = ''
 	): DataResponse {
 		$share = $this->shareManager->newShare();
@@ -652,6 +657,10 @@ class ShareAPIController extends OCSController {
 
 		$share->setShareType($shareType);
 		$share->setSharedBy($this->currentUser);
+
+		if ($note !== '') {
+			$share->setNote($note);
+		}
 
 		try {
 			$share = $this->shareManager->createShare($share);
